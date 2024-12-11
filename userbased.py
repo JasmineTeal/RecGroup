@@ -171,6 +171,14 @@ def main():
     print("推荐的电影列表：")
     print(recommendations)
 
+    output_file = 'item-based results.csv'
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write('Evaluation Metrics\n')
+        f.write(f'RMSE: {rmse}\n')
+        f.write(f'MAE: {mae}\n')
+        f.write('Sample Recomendation\n')
+        f.write(f'Sample UserID: {user_id}\n')
+        f.write(recommendations.to_string(index=False))
 
 if __name__ == "__main__":
     main()

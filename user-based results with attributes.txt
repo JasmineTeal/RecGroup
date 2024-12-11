@@ -1,0 +1,16 @@
+Evaluation Metrics
+RMSE: 1.1342809869414703
+MAE: 0.8665614983735818
+Sample Recommendation
+Sample UserID: 1
+ MovieID                               Title                    Genres
+      39                     Clueless (1995)            Comedy|Romance
+      52             Mighty Aphrodite (1995)                    Comedy
+      62           Mr. Holland's Opus (1995)                     Drama
+     110                   Braveheart (1995)          Action|Drama|War
+     261                 Little Women (1994)                     Drama
+     317            Santa Clause, The (1994) Children's|Comedy|Fantasy
+     344   Ace Ventura: Pet Detective (1994)                    Comedy
+     356                 Forrest Gump (1994)        Comedy|Romance|War
+     543 So I Married an Axe Murderer (1993)   Comedy|Romance|Thriller
+     590           Dances with Wolves (1990)   Adventure|Drama|Western

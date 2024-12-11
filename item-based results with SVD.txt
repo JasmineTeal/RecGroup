@@ -1,0 +1,16 @@
+Evaluation Metrics
+RMSE: 1.025316729525469
+MAE: 0.7501617642602106
+Sample Recomendation
+Sample UserID: 1
+ MovieID                                            Title                       Genres
+      34                                      Babe (1995)      Children's|Comedy|Drama
+     110                                Braveheart (1995)             Action|Drama|War
+     318                 Shawshank Redemption, The (1994)                        Drama
+     596                                 Pinocchio (1940)         Animation|Children's
+     754 Gold Diggers: The Secret of Bear Mountain (1995)         Adventure|Children's
+     828              Adventures of Pinocchio, The (1996)         Adventure|Children's
+     940             Adventures of Robin Hood, The (1938)             Action|Adventure
+     969                        African Queen, The (1951) Action|Adventure|Romance|War
+    1032                       Alice in Wonderland (1951) Animation|Children's|Musical
+    1682                          Truman Show, The (1998)                        Drama

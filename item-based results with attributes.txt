@@ -1,0 +1,16 @@
+Evaluation Metrics
+RMSE: 1.0825811777480567
+MAE: 0.7977341237676882
+Sample Recommendation
+Sample UserID: 1
+ MovieID                              Title                  Genres
+      34                        Babe (1995) Children's|Comedy|Drama
+      41                 Richard III (1995)               Drama|War
+      62          Mr. Holland's Opus (1995)                   Drama
+     110                  Braveheart (1995)        Action|Drama|War
+     161                Crimson Tide (1995)      Drama|Thriller|War
+     300                   Quiz Show (1994)                   Drama
+     318   Shawshank Redemption, The (1994)                   Drama
+     435                   Coneheads (1993)           Comedy|Sci-Fi
+     529 Searching for Bobby Fischer (1993)                   Drama
+     647          Courage Under Fire (1996)               Drama|War

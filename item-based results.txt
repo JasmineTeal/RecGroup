@@ -1,0 +1,16 @@
+Evaluation Metrics
+RMSE: 1.0203145178795083
+MAE: 0.7492258076151809
+Sample Recomendation
+Sample UserID: 1
+ MovieID                                Title                  Genres
+      34                          Babe (1995) Children's|Comedy|Drama
+      62            Mr. Holland's Opus (1995)                   Drama
+      73               Misérables, Les (1995)           Drama|Musical
+     110                    Braveheart (1995)        Action|Drama|War
+     300                     Quiz Show (1994)                   Drama
+     318     Shawshank Redemption, The (1994)                   Drama
+     356                  Forrest Gump (1994)      Comedy|Romance|War
+     897       For Whom the Bell Tolls (1943)           Adventure|War
+     940 Adventures of Robin Hood, The (1938)        Action|Adventure
+    1682              Truman Show, The (1998)                   Drama

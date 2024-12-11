@@ -1,0 +1,16 @@
+Evaluation Metrics
+RMSE: 1.125430177709476
+MAE: 0.8610234667048859
+Sample Recomendation
+Sample UserID: 1
+ MovieID                                        Title                              Genres
+      39                              Clueless (1995)                      Comedy|Romance
+     110                            Braveheart (1995)                    Action|Drama|War
+     543          So I Married an Axe Murderer (1993)             Comedy|Romance|Thriller
+     597                          Pretty Woman (1990)                      Comedy|Romance
+     733                             Rock, The (1996)           Action|Adventure|Thriller
+     904                           Rear Window (1954)                    Mystery|Thriller
+     910                      Some Like It Hot (1959)                        Comedy|Crime
+    1060                              Swingers (1996)                        Comedy|Drama
+    1073 Willy Wonka and the Chocolate Factory (1971) Adventure|Children's|Comedy|Fantasy
+    1136       Monty Python and the Holy Grail (1974)                              Comedy

@@ -171,7 +171,7 @@ def main():
     print("推荐的电影列表：")
     print(recommendations)
 
-    output_file = 'item-based results.csv'
+    output_file = 'user-based results.txt'
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('Evaluation Metrics\n')
         f.write(f'RMSE: {rmse}\n')

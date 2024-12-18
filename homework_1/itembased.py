@@ -9,8 +9,8 @@ from math import sqrt
 
 # 加载MovieLens 1M数据集
 def load_data():
-    ratings_path = 'dataset/ml-1m/ratings.dat'
-    movies_path = 'dataset/ml-1m/movies.dat'
+    ratings_path = '../dataset/ml-1m/ratings.dat'
+    movies_path = '../dataset/ml-1m/movies.dat'
 
     ratings = pd.read_csv(
         ratings_path,

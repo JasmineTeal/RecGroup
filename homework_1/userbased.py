@@ -1,17 +1,14 @@
-import time
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.preprocessing import OneHotEncoder
 from math import sqrt
 
 
 # 加载MovieLens 1M数据集
 def load_data():
     # 假设文件已使用合适的编码加载
-    ratings_path = 'dataset/ml-1m/ratings.dat'
-    movies_path = 'dataset/ml-1m/movies.dat'
-    users_path = 'dataset/ml-1m/users.dat'
+    ratings_path = '../dataset/ml-1m/ratings.dat'
+    movies_path = '../dataset/ml-1m/movies.dat'
 
     ratings = pd.read_csv(
         ratings_path,
@@ -29,15 +26,7 @@ def load_data():
         encoding='ISO-8859-1'
     )
 
-    users = pd.read_csv(
-        users_path,
-        sep='::',
-        names=['UserID', 'Gender', 'Age', 'Occupation', 'Zip-code'],
-        engine='python',
-        encoding='ISO-8859-1'
-    )
-
-    return ratings, movies, users
+    return ratings, movies
 
 
 # 划分训练集和测试集
@@ -53,49 +42,23 @@ def train_test_split(ratings, test_size=0.2, random_state=42):
     test = ratings.iloc[test_indices].copy()
     return train, test
 
+
+# 创建用户-电影评分矩阵（训练集）
 def create_user_movie_matrix(ratings):
     user_movie_matrix = ratings.pivot(index='UserID', columns='MovieID', values='Rating')
     return user_movie_matrix
 
-# 计算用户属性相似度
-def calculate_user_attribute_similarity(users):
-    # 提取用户属性
-    attributes = users[['Gender', 'Age', 'Occupation']]
 
-    # One-Hot 编码离散属性
-    encoder = OneHotEncoder()
-    encoded_attributes = encoder.fit_transform(attributes).toarray()
-
-    # 计算余弦相似度
-    similarity = cosine_similarity(encoded_attributes)
-    similarity_matrix = pd.DataFrame(similarity, index=users['UserID'], columns=users['UserID'])
+# 计算用户相似度（基于训练集）
+def calculate_similarity(user_movie_matrix):
+    # 缺失值填0
+    matrix_filled = user_movie_matrix.fillna(0)
+    similarity = cosine_similarity(matrix_filled)
+    similarity_matrix = pd.DataFrame(similarity, index=user_movie_matrix.index, columns=user_movie_matrix.index)
     return similarity_matrix
 
 
-# 综合评分和属性相似度
-def combine_similarity(rating_similarity, attribute_similarity, alpha=0.7):
-    return alpha * rating_similarity + (1 - alpha) * attribute_similarity
-
-
-# 计算用户相似度（结合属性）
-def calculate_user_similarity_with_attributes(user_movie_matrix, users, alpha=0.7):
-    # 基于评分的用户相似度
-    print("Calculating rating-based similarity...")
-    matrix_filled = user_movie_matrix.fillna(0)
-    rating_similarity = cosine_similarity(matrix_filled)
-    rating_similarity_matrix = pd.DataFrame(rating_similarity, index=user_movie_matrix.index,
-                                            columns=user_movie_matrix.index)
-
-    # 基于用户属性的相似度
-    print("Calculating attribute-based similarity...")
-    attribute_similarity_matrix = calculate_user_attribute_similarity(users)
-
-    # 结合两种相似度
-    print("Combining similarities...")
-    combined_similarity_matrix = combine_similarity(rating_similarity_matrix, attribute_similarity_matrix, alpha=alpha)
-
-    return combined_similarity_matrix
-
+# 基于用户的协同过滤评分预测函数
 def predict_rating(user_id, movie_id, user_movie_matrix, similarity_matrix, k=5):
     # 如果目标用户或电影不在训练集的矩阵中，则返回平均分或0（简单fallback）
     if user_id not in user_movie_matrix.index or movie_id not in user_movie_matrix.columns:
@@ -124,16 +87,13 @@ def predict_rating(user_id, movie_id, user_movie_matrix, similarity_matrix, k=5)
         return np.nan
     return numer / denom
 
-# 修改 evaluate_model 函数
-def evaluate_model_with_attributes(train, test, users, k=5, alpha=0.7):
+
+# 评估模型
+def evaluate_model(train, test, k=5):
     print('Start create matrix')
     user_movie_matrix = create_user_movie_matrix(train)
     print('Start calculating similarity')
-    time1 = time.time()
-    similarity_matrix = calculate_user_similarity_with_attributes(user_movie_matrix, users, alpha=alpha)
-    time2 = time.time()
-    print('Finish calculating similarity')
-    print(f'Cost time to calculate similarity: {time2 - time1}s')
+    similarity_matrix = calculate_similarity(user_movie_matrix)
 
     preds = []
     trues = []
@@ -182,25 +142,25 @@ def recommend_movies(user_id, user_movie_matrix, similarity_matrix, movies, k=5,
 
     return recommended_movies[['MovieID', 'Title', 'Genres']]
 
-# 修改 main 函数
+
 def main():
     # 加载数据
-    ratings, movies, users = load_data()
+    ratings, movies = load_data()
 
     # 划分数据集: 80%训练，20%测试
     train, test = train_test_split(ratings, test_size=0.2, random_state=42)
 
     # 评估
-    alpha = 0.9  # 评分相似度和属性相似度的权重
-    rmse, mae = evaluate_model_with_attributes(train, test, users, k=5, alpha=alpha)
+    rmse, mae = evaluate_model(train, test, k=5)
 
     print("评估结果：")
     print("RMSE:", rmse)
     print("MAE:", mae)
+
     print('Start sample recommendation')
     # 构建用户-电影评分矩阵和相似度矩阵
     user_movie_matrix = create_user_movie_matrix(train)
-    similarity_matrix = calculate_user_similarity_with_attributes(user_movie_matrix, users, alpha=alpha)
+    similarity_matrix = calculate_similarity(user_movie_matrix)
 
     # 输入目标用户ID
     user_id = 1  # 假设目标用户是ID为1的用户
@@ -211,15 +171,14 @@ def main():
     print("推荐的电影列表：")
     print(recommendations)
 
-    output_file = 'user-based results with attributes.txt'
+    output_file = 'user-based results.txt'
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('Evaluation Metrics\n')
         f.write(f'RMSE: {rmse}\n')
         f.write(f'MAE: {mae}\n')
-        f.write('Sample Recommendation\n')
+        f.write('Sample Recomendation\n')
         f.write(f'Sample UserID: {user_id}\n')
         f.write(recommendations.to_string(index=False))
-
 
 if __name__ == "__main__":
     main()
